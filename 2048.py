@@ -61,15 +61,19 @@ def play_game(gamectrl):
     start = time.time()
     while 1:
         state = gamectrl.get_status()
+        print(state)
         if state == 'ended':
             break
         elif state == 'won':
             time.sleep(0.75)
             gamectrl.continue_game()
 
+        print('debig')
         moveno += 1
         board = gamectrl.get_board()
+        print(board)
         move = find_best_move(board)
+        print(move)
         if move < 0:
             break
         print("%010.6f: Score %d, Move %d: %s" % (time.time() - start, gamectrl.get_score(), moveno, movename(move)))
