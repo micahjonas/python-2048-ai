@@ -4,30 +4,10 @@
 ''' Help the user achieve a high score in a real game of 2048 by using a move searcher. '''
 
 from __future__ import print_function
-#import ctypes
+
 import time
 import os
 import searchai
-
-# Enable multithreading?
-#MULTITHREAD = True
-
-#for suffix in ['so', 'dll', 'dylib']:
-#    dllfn = 'bin/2048.' + suffix
-#    if not os.path.isfile(dllfn):
-#        continue
-#    ailib = ctypes.CDLL(dllfn)
-#    break
-#else:
-#    print("Couldn't find 2048 library bin/2048.{so,dll,dylib}! Make sure to build it first.")
-#    exit()
-
-# Maybe init some stuff?
-# ailib.init_tables()
-
-#ailib.find_best_move.argtypes = [ctypes.c_uint64]
-#ailib.score_toplevel_move.argtypes = [ctypes.c_uint64, ctypes.c_int]
-#ailib.score_toplevel_move.restype = ctypes.c_float
 
 def print_board(m):
     for row in m:
@@ -61,19 +41,15 @@ def play_game(gamectrl):
     start = time.time()
     while 1:
         state = gamectrl.get_status()
-        print(state)
         if state == 'ended':
             break
         elif state == 'won':
             time.sleep(0.75)
             gamectrl.continue_game()
 
-        print('debig')
         moveno += 1
         board = gamectrl.get_board()
-        print(board)
         move = find_best_move(board)
-        print(move)
         if move < 0:
             break
         print("%010.6f: Score %d, Move %d: %s" % (time.time() - start, gamectrl.get_score(), moveno, movename(move)))

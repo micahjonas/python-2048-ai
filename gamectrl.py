@@ -87,7 +87,6 @@ class Fast2048Control(Generic2048Control):
     def get_board(self):
         # Chrome refuses to serialize the Grid object directly through the debugger.
         grid = json.loads(self.execute('JSON.stringify(GameManager._instance.grid)'))
-
         board = [[0]*4 for _ in range(4)]
         for row in grid['cells']:
             for cell in row:
@@ -95,6 +94,8 @@ class Fast2048Control(Generic2048Control):
                     continue
                 pos = cell['x'], cell['y']
                 tval = cell['value']
+                # use this line if you want to return the real values not the log2 ones
+                #board[pos[1]][pos[0]] = tval
                 board[pos[1]][pos[0]] = int(round(math.log(tval, 2)))
 
         return board
@@ -106,7 +107,7 @@ class Fast2048Control(Generic2048Control):
 
 class Keyboard2048Control(Generic2048Control):
     ''' Control 2048 by accessing the DOM and using key events.
-    
+
     This is relatively slow, and may be prone to race conditions if your
     browser is slow. However, it is more generally compatible with various
     clones of 2048. '''
