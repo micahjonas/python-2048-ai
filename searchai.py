@@ -21,13 +21,6 @@ def find_best_move(board):
     print ' '
     return bestmove
 
-# use eval state?
-# transposition table
-# current depth
-# cachehits
-# moves evaled
-# depth limit
-
 def score_toplevel_move(board, move):
     # set depth limit fix? variable?
     # depth_limit max(3, count_distinct_tiles(board) -2)
@@ -45,14 +38,10 @@ def score_toplevel_move(board, move):
 
 def score_tilechoose_node(depth, board, prob):
     if depth > DEPTH_LIMIT or prob < LOW_PROBABILITY:
-        print prob
-        print depth
         return score_board(board)
-
 
     empty_positions = []
     res = 0
-
 
     for y in range(4):
         for x in range(4):
@@ -74,15 +63,12 @@ def score_tilechoose_node(depth, board, prob):
 
 
 def score_board(board):
-    #print "empty"
+
     empty = empty_tiles_utility(board)
-    #print "gradient"
     gradient = gradient_utility(board)
-    #print "mono"
     mono =  monotonicity_utility(board)
-    #print "score"
+
     #score = score_utility(board)
-    #print score
 
     return 10*gradient + mono + 100*empty
 
